@@ -2,6 +2,10 @@
 	import LexicalEditor from './components/LexicalEditor.svelte';
 </script>
 
-<div class="w-full h-64 ring-1">
-	<LexicalEditor />
+<div class="global-container">
+	<div id="page" class="mx-auto w-fit p-16 ring-1 ring-gray-500">
+		<div class="min-h-screen w-[65ch] min-w-[40ch] max-w-[65ch]">
+			<LexicalEditor />
+		</div>
+	</div>
 </div>

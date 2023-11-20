@@ -3,5 +3,6 @@
 	import { registerPlainText } from '@lexical/plain-text';
 
 	const editor = getEditor();
-	registerPlainText(editor);
+
+	$: registerPlainText(editor);
 </script>
