@@ -41,7 +41,7 @@
 
 <!-- svelte-ignore a11y-aria-activedescendant-has-tabindex -->
 <div
-	class={twMerge(classProps, 'h-full w-full')}
+	class={twMerge(classProps, 'h-full min-h-[inherit] w-full')}
 	bind:this={contentEditableElement}
 	{...restProps}
 	aria-activedescendant={!isEditable ? undefined : ariaActiveDescendant}
