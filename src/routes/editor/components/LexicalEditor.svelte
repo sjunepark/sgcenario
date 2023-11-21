@@ -3,6 +3,7 @@
 	import type { CreateEditorArgs } from 'lexical';
 	import PlainTextPlugin from '$lib/lexical/plugins/PlainTextPlugin.svelte';
 	import ContentEditable from './ContentEditable.svelte';
+	import LexicalDebugger from '$lib/lexical/LexicalDebugger/LexicalDebugger.svelte';
 
 	const editorConfig: CreateEditorArgs = {
 		namespace: 'editor',
@@ -15,4 +16,5 @@
 <LexicalComposer {editorConfig}>
 	<ContentEditable />
 	<PlainTextPlugin />
+	<LexicalDebugger />
 </LexicalComposer>
