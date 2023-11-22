@@ -19,6 +19,7 @@
 	};
 </script>
 
-<div use:portal={target} hidden>
+<!--todo: remove component and just create a action const in a separate .ts file-->
+<div class="absolute" use:portal={target} hidden>
 	<slot />
 </div>

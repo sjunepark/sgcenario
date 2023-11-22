@@ -13,24 +13,29 @@
 	const MAX_SIZE = 10;
 	let unRegisterCommandListeners = new Set<() => void>();
 
+	let target: HTMLElement | null;
+
 	onMount(() => {
+		target = document.querySelector('#main');
+
 		const commands = editor._commands;
 
 		for (const [command] of commands) {
-			unRegisterCommandListeners.add(
-				editor.registerCommand(
-					command,
-					(payload) => {
-						console.log(`${command.type}`);
-						if (recentCommands.length >= MAX_SIZE) {
-							recentCommands.shift();
-						}
-						recentCommands = [...recentCommands, { type: command.type ?? 'UNKNOWN', payload }];
-						return false;
-					},
-					COMMAND_PRIORITY_HIGH
-				)
+			console.log(`Registering ${JSON.stringify(command)}`);
+			const unRegisterCommandListener = editor.registerCommand(
+				command,
+				(payload) => {
+					console.log(`${command.type}`);
+					if (recentCommands.length >= MAX_SIZE) {
+						recentCommands.shift();
+					}
+					recentCommands = [...recentCommands, { type: command.type ?? 'UNKNOWN', payload }];
+					return false;
+				},
+				COMMAND_PRIORITY_HIGH
 			);
+
+			unRegisterCommandListeners.add(unRegisterCommandListener);
 		}
 	});
 	onDestroy(() => {
@@ -39,23 +44,21 @@
 </script>
 
 {#if dev && browser}
-	<!--todo: render to container-->
-	<Portal target={document.querySelector('body')}>
-		<h2>Debugger</h2>
-		{#each recentCommands as command, index (index)}
-			<div class="command">
-				{command.type}
-				{#if command.payload}
-					<pre>{JSON.stringify(command.payload, null)}</pre>
-				{/if}
-			</div>
-		{/each}
-		<button
-			on:click={() => {
-				console.log(recentCommands);
-			}}
-		>
-			Log commands
-		</button>
+	<Portal {target}>
+		<div class="absolute left-0 top-0">
+			<h2>Debugger</h2>
+			{#each recentCommands as command, index (index)}
+				<div class="command">
+					{JSON.stringify(command, null, 2)}
+				</div>
+			{/each}
+			<button
+				on:click={() => {
+					console.log(recentCommands);
+				}}
+			>
+				Log commands
+			</button>
+		</div>
 	</Portal>
 {/if}
