@@ -21,6 +21,7 @@
 	},
 	"devDependencies": {
 		"@lexical/plain-text": "^0.12.4",
+		"@melt-ui/svelte": "^0.62.1",
 		"@sveltejs/adapter-auto": "^2.1.1",
 		"@sveltejs/kit": "^1.27.6",
 		"@tailwindcss/forms": "^0.5.7",

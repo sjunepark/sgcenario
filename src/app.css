@@ -2,20 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-	.prose input {
-		font-size: inherit;
-		line-height: inherit;
-		@apply break-words;
-	}
-}
-
-@layer components {
-	[contenteditable='true']:empty::before {
-		content: attr(data-placeholder);
-		@apply inline-block text-gray-400;
-	}
-}
 
 @layer utilities {
 	.global-container {

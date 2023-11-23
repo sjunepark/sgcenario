@@ -4,6 +4,8 @@
 	import { COMMAND_PRIORITY_HIGH } from 'lexical';
 	import { browser, dev } from '$app/environment';
 	import { portal } from '$lib/utils/portal';
+	import { BugPlay } from 'lucide-svelte';
+	import { createPopover } from '@melt-ui/svelte';
 
 	// todo: show selection
 
@@ -14,6 +16,18 @@
 	let unRegisterCommandListeners = new Set<() => void>();
 
 	let target: HTMLElement | null;
+
+	const {
+		elements: { trigger, content },
+		states: { open }
+	} = createPopover({
+		defaultOpen: true,
+		closeOnOutsideClick: false,
+		positioning: {
+			placement: 'bottom',
+			gutter: 10
+		}
+	});
 
 	onMount(() => {
 		target = document.querySelector('#main');
@@ -44,19 +58,19 @@
 </script>
 
 {#if dev && browser}
-	<div use:portal={target} class="absolute left-0 top-0">
-		<h2>Debugger</h2>
-		{#each recentCommands as command, index (index)}
-			<div class="command">
-				{JSON.stringify(command, null, 2)}
-			</div>
-		{/each}
-		<button
-			on:click={() => {
-				console.log(recentCommands);
-			}}
-		>
-			Log commands
+	<div use:portal={target}>
+		<button {...$trigger} use:trigger class="absolute right-0 top-0">
+			<BugPlay />
 		</button>
+		{#if $open}
+			<div {...$content} use:content class="bg-white/90 p-2 text-sm ring-1 ring-gray-500">
+				<h2 class="text-base">Debugger</h2>
+				{#each recentCommands as command, index (index)}
+					<div class="command">
+						{JSON.stringify(command, null, 2)}
+					</div>
+				{/each}
+			</div>
+		{/if}
 	</div>
 {/if}
