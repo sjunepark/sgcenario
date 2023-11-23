@@ -3,7 +3,7 @@
 	import { getEditor } from '$lib/lexical/LexicalComposer/LexicalComposerContext';
 	import { COMMAND_PRIORITY_HIGH } from 'lexical';
 	import { browser, dev } from '$app/environment';
-	import Portal from '$lib/components/Portal.svelte';
+	import { portal } from '$lib/utils/portal';
 
 	// todo: show selection
 
@@ -44,21 +44,19 @@
 </script>
 
 {#if dev && browser}
-	<Portal {target}>
-		<div class="absolute left-0 top-0">
-			<h2>Debugger</h2>
-			{#each recentCommands as command, index (index)}
-				<div class="command">
-					{JSON.stringify(command, null, 2)}
-				</div>
-			{/each}
-			<button
-				on:click={() => {
-					console.log(recentCommands);
-				}}
-			>
-				Log commands
-			</button>
-		</div>
-	</Portal>
+	<div use:portal={target} class="absolute left-0 top-0">
+		<h2>Debugger</h2>
+		{#each recentCommands as command, index (index)}
+			<div class="command">
+				{JSON.stringify(command, null, 2)}
+			</div>
+		{/each}
+		<button
+			on:click={() => {
+				console.log(recentCommands);
+			}}
+		>
+			Log commands
+		</button>
+	</div>
 {/if}
